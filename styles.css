@@ -22,7 +22,7 @@ body {
   height: 220px;
   border: 20px solid #000;
   cursor: pointer;
-  transition: 0.2s all;
+  transition: 0.2s background-color;
 }
 
 #greenPanel {
