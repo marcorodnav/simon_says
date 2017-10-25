@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Gloria+Hallelujah');
+
+body {
+  margin: 60px auto;
+  max-width: 600px;
+  background: rgb(212, 124, 9);
+  font-family: 'Gloria Hallelujah', cursive;
+}
+.simonBoard {
+  width: 500px;
+  height: 500px;
+  background-color: transparent;
+  position: relative;
+  margin: 0 auto;
+
+}
+
+.panel {
+  display: inline-block;
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border: 20px solid #000;
+  cursor: pointer;
+  transition: 0.2s all;
+}
+
+#greenPanel {
+  top: 0px;
+  left: 0px;
+  background-color: #00ff00;
+  border-top-left-radius:130px;
+}
+
+#greenPanel:active {
+  background-color: #079607;
+}
+
+#redPanel {
+  top: 0px;
+  right: 0px;
+  background-color: #ff0000;
+  border-top-right-radius: 130px;
+}
+
+#redPanel:active {
+  background-color: #c00303;
+}
+
+#yellowPanel {
+  bottom: 0px;
+  left: 0px;
+  background-color: #ffff00;
+  border-bottom-left-radius: 130px;
+}
+
+#yellowPanel:active {
+  background-color: #b8b800;
+}
+
+#bluePanel {
+  bottom: 0px;
+  right: 0px;
+  background-color: #0000ff;
+  border-bottom-right-radius: 130px;
+}
+
+#bluePanel:active {
+  background-color: #0000bd;
+}
+
+#controlsPanel {
+  background-color: #fff;
+  top: calc(50% - 95px);
+  left: calc(50% - 100px);
+  height: 150px;
+  width: 150px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  color: #fff;
+  margin-left: 150px;
+}
+
+footer p {
+  margin-bottom: 0px;
+}
+
+header {
+  position: fixed;
+  top: 0;
+}
+
+header h1 {
+  margin-left: 220px;
+  margin-top: -15px;
+}
+
+footer span {
+  color: #000;
+}
