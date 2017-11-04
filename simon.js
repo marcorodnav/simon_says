@@ -32,5 +32,4 @@
       document.querySelector('#resetToggle').style.background = "radial-gradient(#f00,#000)"      
     }
   }
-
 })();
