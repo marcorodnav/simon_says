@@ -147,18 +147,15 @@ div span.toggleButton {
 }
 
 #resetToggle {
-  background: #f00; /* For browsers that do not support gradients */
-  background: -webkit-radial-gradient(#f00,#000); /* Safari 5.1 to 6.0 */
-  background: -o-radial-gradient(#f00,#000); /* For Opera 11.6 to 12.0 */
-  background: -moz-radial-gradient(#f00,#000); /* For Firefox 3.6 to 15 */
   background: radial-gradient(#f00,#000); /* Standard syntax */
+}
+#resetToggle:active {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 25px #000;
 }
 
 #strictToggle {
-  background: #ff0; /* For browsers that do not support gradients */
-  background: -webkit-radial-gradient(#ff0,#000); /* Safari 5.1 to 6.0 */
-  background: -o-radial-gradient(#ff0,#000); /* For Opera 11.6 to 12.0 */
-  background: -moz-radial-gradient(#ff0,#000); /* For Firefox 3.6 to 15 */
   background: radial-gradient(#ff0,#000); /* Standard syntax */
 }
 
@@ -171,14 +168,38 @@ div span.toggleButton {
             user-select: none; 
 }
 
-.redSelected {
-  outline: none;
-  border-color: #000;
-  box-shadow: 0 0 25px #000;
-}
 
 .yellowSelected {
   outline: none;
   border-color: #000;
   box-shadow: 0 0 25px #000;
+}
+
+.onOff {
+  position: relative;
+  display: block;
+  border: 1px solid black;
+  width: 43px;
+  height: 30px;
+  margin-left: 68px !important;
+  box-sizing: border-box;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.onOff span{
+  position: absolute;
+  height: 100%;
+}
+
+#indicator {
+  margin-left: 8px;
+}
+
+.on {
+  background: radial-gradient(#00f,#000); /* Standard syntax */
+}
+
+.off {
+  background: radial-gradient(rgb(221, 34, 34),#000); /* Standard syntax */
 }
