@@ -32,6 +32,10 @@ body {
   border-top-left-radius:130px;
 }
 
+#greenPanel.light {
+  background-color: #079607;
+}
+
 #greenPanel:active {
   background-color: #079607;
 }
@@ -41,6 +45,10 @@ body {
   right: 0px;
   background-color: #ff0000;
   border-top-right-radius: 130px;
+}
+
+#redPanel.light {
+  background-color: #c00303;
 }
 
 #redPanel:active {
@@ -54,9 +62,14 @@ body {
   border-bottom-left-radius: 130px;
 }
 
-#yellowPanel:active {
+#yellowPanel.light {
   background-color: #b8b800;
 }
+
+#yellowPanel:active{
+  background-color: #b8b800;
+}
+
 
 #bluePanel {
   bottom: 0px;
@@ -66,6 +79,9 @@ body {
 }
 
 #bluePanel:active {
+  background-color: #0000bd;
+}
+#bluePanel.light {
   background-color: #0000bd;
 }
 
