@@ -14,22 +14,18 @@
 
   const panels = {
     "0": {
-      index: 0,
       panel: greenPanel,
       sound: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3')
     },
     "1": {
-      index: 1,
       panel: redPanel,
       sound: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3')
     },
     "2": {
-      index: 2,
       panel: yellowPanel,
       sound: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3')
     },
     "3": {
-      index: 3,
       panel: bluePanel,
       sound: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3')
     }
@@ -91,16 +87,6 @@
     sounds.playSound('3')
   }
 
-  // simulate greenPanel Active
-  
-  const first = () => {
-    setTimeout((function() {
-      simGreenActive()
-      setTimeout(restorePanels, 450)
-    }), 450);
-  }
-
-
   const activatePanel = (step) => {
     setTimeout(() => {
       step.panel.classList.add('light');
@@ -124,19 +110,8 @@
         })(i);
       }
     }, 1000);
-    // set player turn active
   }
-
-  
 
   simBtn.onclick = () => {
     aiPlay(['1','0'])
   }
-  
-  resetToggleBtn.onclick = () => {
-    restoreGreenPanel()
-  }
-  
-
-
-
