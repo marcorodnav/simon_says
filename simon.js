@@ -99,26 +99,16 @@
       setTimeout(restorePanels, 450)
     }), 450);
   }
-  const simGreenActive = () => {
-    greenPanel.style['background-color'] = '#079607'
-    sounds.playSound('1')
-  }
+
 
   const activatePanel = (step) => {
     setTimeout(() => {
       step.panel.classList.add('light');
       setTimeout(() => {
         step.panel.classList.remove('light');  
-      }, 250, step);
-    }, 250, step);
+      }, 350);
+    }, 350);
   }
-
-  const srcSounds = [
-    'https://s3.amazonaws.com/freecodecamp/simonSound1.mp3',
-    'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3',
-    'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3',
-    'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3',
-  ]
   
   const aiPlay = (simon) => {
     let soundIndex;
