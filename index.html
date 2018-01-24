@@ -8,7 +8,7 @@
   <title>Simon Says</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body onload="initGame()">
   <div class="simonBoard">
     <div id="greenPanel" class="panel"></div>
     <div id="redPanel" class="panel"></div>
@@ -17,7 +17,7 @@
     <div id="controlsPanel" class="panel noselect">
       <h2>Simon</h2>
       <div class="indicators">
-        <span id="counter">00</span>
+        <span id="counter"></span>
         <span class="toggleButton" id="resetToggle"></span>
         <span class="toggleButton" id="strictToggle"></span>
       </div>
