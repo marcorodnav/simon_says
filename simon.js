@@ -1,3 +1,7 @@
+document.querySelector("body").onload = () => {
+  initGame()
+} 
+ 
  // Controls
  const strictToggleBtn = document.querySelector('#strictToggle')
  const onOffToggleBtn = document.querySelector('div.onOff')
@@ -11,8 +15,9 @@
  const bluePanel = document.querySelector('#bluePanel')
 
  // Cuonter display
-const counterDisplay = document.querySelector("#counter");
-
+const counterDisplay = document.querySelector("#counter")
+const informationDisplay = document.querySelector("#information")
+const informationText = document.querySelector("#text")
 const resetCounter = () => {
   pattern = []
   playerPattern = []
@@ -66,7 +71,15 @@ const checkUserPattern  = () => {
 }
 
 const displayWinner = () => {
-  alert('Winner');
+  let text = "Winner"
+  informationText.innerText = text
+  
+  setTimeout(() => {
+    informationDisplay.style.display = "block"
+    setTimeout(() => {
+      informationDisplay.style.display = "none"
+    }, 500);
+  }, 500);
 }
 
 const displayError = () => {
@@ -95,7 +108,7 @@ const playerPlay = (playerMove) => {
   updateCounterDisplay(counter)
   if(playerPattern.length === MAX_LEVELS) {
     displayWinner()
-    resetCounter()
+    startAction()
   }  
 }
 
