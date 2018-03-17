@@ -11,13 +11,40 @@
  const yellowPanel = document.querySelector('#yellowPanel')
  const bluePanel = document.querySelector('#bluePanel')
 
+ // Cuonter display
+const counterDisplay = document.querySelector("#counter");
+
+const updateCounterDisplay = (val) => {
+  let newCounterVal = ""
+  if (typeof val === "number") {
+    if (val < 10) {
+      newCounterVal = "0"+val
+    } else {
+      newCounterVal = ""+val
+    }
+  } else {
+    newCounterVal = val;
+  }
+  counterDisplay.innerText = newCounterVal
+}
  // Counter
- var counter = 0
+ var counter =0
  var pattern = []
  var playerPattern = []
- let playerTurn = true
- var playerClicks = 0
+ var strictMode = false
+ const MAX_LEVELS = 20
+ var patternMissed = false
 
+ const boardS = ['https://s3.amazonaws.com/freecodecamp/simonSound1.mp3',
+ 'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3',
+ 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3',
+ 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'
+]
+
+const playSound = (id) => {
+  let sound = new Audio(boardS[id]);
+  sound.play()
+}
  const printPatterns = () => {
   console.log(`Pattern: ${pattern}`)
   console.log(`Player pattern: ${playerPattern}`)
@@ -27,35 +54,52 @@ const initGame = () => {
   printPatterns()
 }
 
-const checkArraySubsetOfArray = (arrSubset, arrFull) => {
-  return arrSubset.every((item) => {
-    return arrSubset.indexOf(item) === arrFull.indexOf(item);
-  })
+const checkUserPattern  = () => {
+  for (let i = 0; i < playerPattern.length; i++) {
+    if (playerPattern[i] !== pattern[i]) {
+      return false
+    }
+  }
+  return true
+}
+
+const displayWinner = () => {
+  alert('Winner');
+}
+
+const displayError = () => {
+  updateCounterDisplay("ER")
 }
 
 const playerPlay = (playerMove) => {
-  if (playerPattern.length < pattern.length && playerPattern[playerClicks - 2] !== playerMove && playerTurn) {
-    playerPattern.push(playerMove)
-  }
-  printPatterns()
-  if(checkArraySubsetOfArray(playerPattern, pattern)) {
-    
-    playerTurn = playerPattern.length < pattern.length 
-    if (!playerTurn) {
-      counter++
-      document.querySelector('#counter').textContent = counter
-      pattern.push(getRandomSimonStep())
-      aiPlay(pattern)
+  playerPattern.push(playerMove)
+  if (!checkUserPattern()) {
+    if(strictMode) {
+      pattern = []
+      counter = 1
     }
-  } else {
-    alert("game finished, you lose...")
+    patternMissed = true   
+    displayError()
+    playerPattern = []      
+    aiPlay()
+  } else if(playerPattern.length == pattern.length && playerPattern.length < MAX_LEVELS) {
+    counter++;
+    playerPattern = []
+    patternMissed = false
+    aiPlay()
   }
+  updateCounterDisplay(""+counter)
+  if(playerPattern.length === MAX_LEVELS) {
+    displayWinner()
+    // todo resetGame()
+  }  
 }
+
  const getRandomSimonStep = () => {
    return Math.floor(Math.random() * 4).toString()
  }
 
- const initPattern = () => {
+ const addRandomToPattern = () => {
    pattern.push(getRandomSimonStep())
  }
 
@@ -97,8 +141,10 @@ const playerPlay = (playerMove) => {
  strictToggleBtn.onclick = () => {
    if (strictToggleBtn.classList.contains('yellowSelected')) {
      strictToggleBtn.classList.remove('yellowSelected')
+     strictMode = false
    } else {
      strictToggleBtn.classList.add('yellowSelected')
+     strictMode = true
    }
  };
 
@@ -116,6 +162,7 @@ const playerPlay = (playerMove) => {
      document.querySelector('#counter').textContent = counter
      endPattern()
     } else {
+      updateCounterDisplay("0");
       onOffToggleBtn.classList.remove('off')
       onOffToggleBtn.classList.add('on')
       onOffIndicator.textContent = 'ON'
@@ -123,32 +170,27 @@ const playerPlay = (playerMove) => {
       document.querySelector('#counter').style.color = "red";
       strictToggleBtn.style.background = "radial-gradient(#ff0,#000)"
       document.querySelector('#resetToggle').style.background = "radial-gradient(#f00,#000)"
-      initPattern()
       setTimeout(() => {
-        aiPlay(pattern)
+        aiPlay()
       }, 200);
    }
   }
 
  // Board sounds - player turn
  greenPanel.onclick = () => {
-   sounds.playSound('0')
-   playerClicks++
+  playSound(0);
    playerPlay('0')
  }
  redPanel.onclick = () => {
-   sounds.playSound('1')
-   playerClicks++
+  playSound(1);
    playerPlay('1')
  }
  yellowPanel.onclick = () => {
-   sounds.playSound('2')
-   playerClicks++
+  playSound(2);
    playerPlay('2')
  }
  bluePanel.onclick = () => {
-   sounds.playSound('3')
-   playerClicks++
+  playSound(3);
    playerPlay('3')
  }
 
@@ -161,23 +203,23 @@ const playerPlay = (playerMove) => {
    }, 350);
  }
 
- const aiPlay = (simon) => {
-   playerTurn = false
+ const aiPlay = () => {
+  if(!patternMissed) {
+    addRandomToPattern()
+  }
+  if(patternMissed && strictMode) {
+    addRandomToPattern()
+  }
    setTimeout(() => {
-     for (var i = 0; i < simon.length; i++) {
+     for (var i = 0; i < pattern.length; i++) {
        (function (i) {
          setTimeout(() => {
            // play sound
-           sounds[simon[i]].play()
+           playSound(pattern[i]);
            // activate(tiemout 150) / deactivate(timeout 150)
-           activatePanel(panels[simon[i]]);
+           activatePanel(panels[pattern[i]]);
          }, i * 800);
        })(i);
      }
    }, 1000);
-   playerTurn = true
- }
-
- simBtn.onclick = () => {
-   aiPlay(['1', '0'])
  }
