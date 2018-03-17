@@ -2,8 +2,7 @@
  const strictToggleBtn = document.querySelector('#strictToggle')
  const onOffToggleBtn = document.querySelector('div.onOff')
  const onOffIndicator = document.querySelector('#indicator')
- const resetToggleBtn = document.querySelector('#resetToggle')
- const simBtn = document.querySelector('#sim')
+ const startToggleBtn = document.querySelector('#startToggle')
 
  // Color panels
  const greenPanel = document.querySelector('#greenPanel')
@@ -13,6 +12,13 @@
 
  // Cuonter display
 const counterDisplay = document.querySelector("#counter");
+
+const resetCounter = () => {
+  pattern = []
+  playerPattern = []
+  counter  = 0
+  updateCounterDisplay(counter)
+}
 
 const updateCounterDisplay = (val) => {
   let newCounterVal = ""
@@ -45,13 +51,9 @@ const playSound = (id) => {
   let sound = new Audio(boardS[id]);
   sound.play()
 }
- const printPatterns = () => {
-  console.log(`Pattern: ${pattern}`)
-  console.log(`Player pattern: ${playerPattern}`)
- }
+
 const initGame = () => {
   onOffToggleBtn.click();
-  printPatterns()
 }
 
 const checkUserPattern  = () => {
@@ -74,12 +76,14 @@ const displayError = () => {
 const playerPlay = (playerMove) => {
   playerPattern.push(playerMove)
   if (!checkUserPattern()) {
+    setTimeout(() => {
+      displayError()
+    }, 200);
     if(strictMode) {
       pattern = []
-      counter = 1
+      counter = 0
     }
     patternMissed = true   
-    displayError()
     playerPattern = []      
     aiPlay()
   } else if(playerPattern.length == pattern.length && playerPattern.length < MAX_LEVELS) {
@@ -88,10 +92,10 @@ const playerPlay = (playerMove) => {
     patternMissed = false
     aiPlay()
   }
-  updateCounterDisplay(""+counter)
+  updateCounterDisplay(counter)
   if(playerPattern.length === MAX_LEVELS) {
     displayWinner()
-    // todo resetGame()
+    resetCounter()
   }  
 }
 
@@ -101,10 +105,6 @@ const playerPlay = (playerMove) => {
 
  const addRandomToPattern = () => {
    pattern.push(getRandomSimonStep())
- }
-
- const endPattern = () => {
-   pattern = [];
  }
 
  const panels = {
@@ -125,17 +125,17 @@ const playerPlay = (playerMove) => {
      sound: new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3')
    }
  }
-
- // Board sounds
- const sounds = {
-   "0": new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'),
-   "1": new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3'),
-   "2": new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3'),
-   "3": new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3'),
-   playSound: (sound) => {
-     sounds[sound].play()
-   }
- }
+const startAction = () => {
+  strictMode = false;
+  patternMissed = false;
+  counter = 0;
+  updateCounterDisplay(counter)
+  pattern = []
+  playerPattern = [];
+  aiPlay();
+}
+ // Start button
+ startToggleBtn.onclick = startAction
 
  // Strict mode
  strictToggleBtn.onclick = () => {
@@ -146,35 +146,37 @@ const playerPlay = (playerMove) => {
      strictToggleBtn.classList.add('yellowSelected')
      strictMode = true
    }
+   resetCounter()
+   aiPlay()
  };
 
  // On/Off
  onOffToggleBtn.onclick = () => {
-   if (onOffToggleBtn.classList.contains('on')) {
-     onOffToggleBtn.classList.remove('on')
-     onOffToggleBtn.classList.add('off')
-     onOffIndicator.textContent = 'OFF'
-     document.querySelector('#controlsPanel').style.background = "black"
-     document.querySelector('#counter').style.color = "black"
-     strictToggleBtn.style.background = "black"
-     document.querySelector('#resetToggle').style.background = "black"
-     strictToggleBtn.classList.remove('yellowSelected')
-     document.querySelector('#counter').textContent = counter
-     endPattern()
-    } else {
-      updateCounterDisplay("0");
-      onOffToggleBtn.classList.remove('off')
-      onOffToggleBtn.classList.add('on')
-      onOffIndicator.textContent = 'ON'
-      document.querySelector('#controlsPanel').style.background = "white"
-      document.querySelector('#counter').style.color = "red";
-      strictToggleBtn.style.background = "radial-gradient(#ff0,#000)"
-      document.querySelector('#resetToggle').style.background = "radial-gradient(#f00,#000)"
-      setTimeout(() => {
-        aiPlay()
-      }, 200);
-   }
+  if (onOffToggleBtn.classList.contains('on')) {
+    onOffToggleBtn.classList.remove('on')
+    onOffToggleBtn.classList.add('off')
+    onOffIndicator.textContent = 'OFF'
+    document.querySelector('#controlsPanel').style.background = "black"
+    document.querySelector('#counter').style.color = "black"
+    strictToggleBtn.style.background = "black"
+    document.querySelector('#startToggle').style.background = "black"
+    strictToggleBtn.classList.remove('yellowSelected')
+    document.querySelector('#counter').textContent = counter
+    resetCounter()
+  } else {
+    updateCounterDisplay(counter);
+    onOffToggleBtn.classList.remove('off')
+    onOffToggleBtn.classList.add('on')
+    onOffIndicator.textContent = 'ON'
+    document.querySelector('#controlsPanel').style.background = "white"
+    document.querySelector('#counter').style.color = "red";
+    strictToggleBtn.style.background = "radial-gradient(#ff0,#000)"
+    document.querySelector('#startToggle').style.background = "radial-gradient(#f00,#000)"
+    setTimeout(() => {
+      aiPlay()
+    }, 200);
   }
+}
 
  // Board sounds - player turn
  greenPanel.onclick = () => {

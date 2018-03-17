@@ -162,10 +162,10 @@ div span.toggleButton {
   margin-left: 15px;
 }
 
-#resetToggle {
+#startToggle {
   background: radial-gradient(#f00,#000); /* Standard syntax */
 }
-#resetToggle:active {
+#startToggle:active {
   outline: none;
   border-color: #000;
   box-shadow: 0 0 25px #000;
